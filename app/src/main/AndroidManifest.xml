@@ -4,23 +4,30 @@
     package="com.devest.miapp">
 
     <!-- ==== PERMISOS ==== -->
+    <!-- Cámara -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Permiso antiguo para escritura externa (solo hasta Android 9) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
+    <!-- Permiso general de Internet (si abres páginas o usas APIs) -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permiso moderno para guardar imágenes en galería -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+        tools:ignore="ScopedStorage" />
 
     <!-- ==== COMPATIBILIDAD DE HARDWARE ==== -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
 
     <!-- ==== QUERIES PARA ANDROID 11+ (API 30+) ==== -->
-    <!-- CRÍTICO: Sin esto, no se detectarán las apps de cámara en Android 11+ -->
+    <!-- Sin esto, algunas apps de cámara no son detectadas en Android 11+ -->
     <queries>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
     </queries>
 
+    <!-- ==== APLICACIÓN ==== -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -30,8 +37,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiApp"
-        tools:targetApi="31">
+        tools:targetApi="34">
 
+        <!-- === ACTIVIDAD PRINCIPAL === -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -41,12 +49,13 @@
             </intent-filter>
         </activity>
 
+        <!-- === OTRAS ACTIVIDADES === -->
         <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".HomeActivity" android:exported="false" />
         <activity android:name=".PerfilActivity" android:exported="false" />
         <activity android:name=".CamaraActivity" android:exported="false" />
 
-        <!-- Provider para guardar fotos -->
+        <!-- === PROVIDER PARA GUARDAR FOTOS === -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.devest.miapp.fileprovider"
@@ -56,5 +65,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
+
 </manifest>
